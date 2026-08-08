@@ -8,42 +8,44 @@
    MUSIC
 ===================================================== */
 
-const weddingMusic = document.getElementById("weddingMusic");
+const weddingMusic =
+    document.getElementById("weddingMusic");
 
 if (weddingMusic) {
 
     weddingMusic.volume = 0.7;
     weddingMusic.loop = true;
 
-    // محاولة التشغيل تلقائيًا
-    weddingMusic.play().catch(() => {
-        console.log("Waiting for user interaction...");
-    });
-
-    // أول تفاعل مع الموقع يشغل الأغنية
-    const startMusic = () => {
+    function startMusic() {
 
         weddingMusic.play().catch(() => {});
 
-        document.removeEventListener("click", startMusic);
-        document.removeEventListener("touchstart", startMusic);
-        document.removeEventListener("scroll", startMusic);
+    }
 
-    };
+    // محاولة التشغيل بمجرد فتح الموقع
+    startMusic();
 
-    document.addEventListener("click", startMusic, {
-        once: true
-    });
+    // أول تفاعل مع الموقع
+    document.addEventListener(
+        "click",
+        startMusic,
+        { once: true }
+    );
 
-    document.addEventListener("touchstart", startMusic, {
-        once: true
-    });
+    document.addEventListener(
+        "touchstart",
+        startMusic,
+        { once: true }
+    );
 
-    document.addEventListener("scroll", startMusic, {
-        once: true
-    });
+    document.addEventListener(
+        "scroll",
+        startMusic,
+        { once: true }
+    );
 
 }
+
 /* =====================================================
    2. COUNTDOWN
 ===================================================== */
@@ -395,15 +397,6 @@ if (attendanceButton) {
     attendanceButton.addEventListener(
         "click",
         () => {
-
-            // تشغيل الموسيقى لو المتصفح منعها
-            if (weddingMusic) {
-
-                weddingMusic.play().catch(
-                    () => {}
-                );
-
-            }
 
 
             // انفجار القلوب والورود
