@@ -627,6 +627,32 @@
 
 <script src="script.js"></script>
 
+    <script src="script.js"></script>
+
+<script>
+const lastSlides = document.querySelector('.last-three-slides');
+
+if (lastSlides) {
+
+    lastSlides.addEventListener('wheel', function(event) {
+
+        event.preventDefault();
+
+        lastSlides.scrollBy({
+            left: event.deltaY > 0
+                ? window.innerWidth
+                : -window.innerWidth,
+            behavior: 'smooth'
+        });
+
+    }, { passive: false });
+
+}
+</script>
+
+</body>
+</html>
+
 </body>
 
 </html>
