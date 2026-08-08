@@ -1,75 +1,84 @@
 /* =========================================
-   Wedding Invitation - محمد & سماح
+   WEDDING INVITATION
+   MOHAMED & SAMAH
    SCRIPT.JS
 ========================================= */
 
 
 /* =========================================
-   1. شاشة التحميل
+   1. LOADER
 ========================================= */
 
 window.addEventListener("load", () => {
 
     const loader = document.getElementById("loader");
 
-    setTimeout(() => {
+    if (loader) {
 
-        loader.classList.add("hide");
+        setTimeout(() => {
 
-    }, 1200);
+            loader.classList.add("hide");
+
+        }, 1200);
+
+    }
 
 });
 
 
 /* =========================================
-   2. ظهور الأقسام أثناء الـ Scroll
+   2. SCROLL REVEAL
 ========================================= */
 
 const revealElements =
     document.querySelectorAll(".section-reveal");
 
 
-const revealObserver =
-    new IntersectionObserver(
+if (revealElements.length > 0) {
 
-        (entries) => {
+    const revealObserver =
+        new IntersectionObserver(
 
-            entries.forEach((entry) => {
+            (entries) => {
 
-                if (entry.isIntersecting) {
+                entries.forEach((entry) => {
 
-                    entry.target.classList.add("visible");
+                    if (entry.isIntersecting) {
 
-                }
+                        entry.target.classList.add("visible");
 
-            });
+                    }
 
-        },
+                });
 
-        {
-            threshold: 0.12
-        }
+            },
 
-    );
+            {
+                threshold: 0.12
+            }
+
+        );
 
 
-revealElements.forEach((element) => {
+    revealElements.forEach((element) => {
 
-    revealObserver.observe(element);
+        revealObserver.observe(element);
 
-});
+    });
+
+}
 
 
 /* =========================================
-   3. العداد التنازلي
+   3. COUNTDOWN
 ========================================= */
 
 /*
-   موعد الفرح:
-   الثلاثاء 22 سبتمبر 2026
-   الساعة 9 مساءً
+   Wedding:
+   Tuesday - 22 September 2026
+   9:00 PM
 
-   التوقيت المحلي للجهاز.
+   Uses the visitor's local time.
 */
 
 const weddingDate =
@@ -105,17 +114,19 @@ function updateCountdown() {
         now.getTime();
 
 
-    /* لو انتهى الوقت */
-
     if (difference <= 0) {
 
-        daysElement.textContent = "00";
+        if (daysElement)
+            daysElement.textContent = "00";
 
-        hoursElement.textContent = "00";
+        if (hoursElement)
+            hoursElement.textContent = "00";
 
-        minutesElement.textContent = "00";
+        if (minutesElement)
+            minutesElement.textContent = "00";
 
-        secondsElement.textContent = "00";
+        if (secondsElement)
+            secondsElement.textContent = "00";
 
         return;
 
@@ -123,7 +134,9 @@ function updateCountdown() {
 
 
     const totalSeconds =
-        Math.floor(difference / 1000);
+        Math.floor(
+            difference / 1000
+        );
 
 
     const days =
@@ -148,17 +161,24 @@ function updateCountdown() {
         totalSeconds % 60;
 
 
-    daysElement.textContent =
-        addZero(days);
+    if (daysElement)
+        daysElement.textContent =
+            addZero(days);
 
-    hoursElement.textContent =
-        addZero(hours);
 
-    minutesElement.textContent =
-        addZero(minutes);
+    if (hoursElement)
+        hoursElement.textContent =
+            addZero(hours);
 
-    secondsElement.textContent =
-        addZero(seconds);
+
+    if (minutesElement)
+        minutesElement.textContent =
+            addZero(minutes);
+
+
+    if (secondsElement)
+        secondsElement.textContent =
+            addZero(seconds);
 
 }
 
@@ -173,95 +193,120 @@ setInterval(
 
 
 /* =========================================
-   4. الموسيقى
+   4. MUSIC
 ========================================= */
 
 const music =
     document.getElementById("weddingMusic");
 
 
-const musicButton =
-    document.getElementById("musicButton");
+if (music) {
+
+    /*
+       مستوى الصوت
+    */
+
+    music.volume = 0.7;
 
 
-const musicIcon =
-    document.getElementById("musicIcon");
+    /*
+       تكرار الأغنية
+    */
+
+    music.loop = true;
 
 
-const musicText =
-    document.getElementById("musicText");
+    /*
+       محاولة التشغيل تلقائيًا
+    */
 
-
-let musicPlaying = false;
-
-
-musicButton.addEventListener(
-    "click",
-    async () => {
+    async function playWeddingMusic() {
 
         try {
 
-            if (!musicPlaying) {
+            await music.play();
 
-                await music.play();
-
-                musicPlaying = true;
-
-                musicIcon.textContent = "❚❚";
-
-                musicText.textContent =
-                    "إيقاف الموسيقى";
-
-            } else {
-
-                music.pause();
-
-                musicPlaying = false;
-
-                musicIcon.textContent = "▶";
-
-                musicText.textContent =
-                    "تشغيل الموسيقى";
-
-            }
+            console.log(
+                "🎵 Wedding music is playing"
+            );
 
         } catch (error) {
 
-            console.error(
-                "تعذر تشغيل الموسيقى:",
-                error
+            console.log(
+                "Autoplay blocked by browser."
             );
-
-            musicText.textContent =
-                "تأكد من وجود ملف الأغنية";
 
         }
 
     }
-);
+
+
+    /*
+       عند تحميل الصفحة
+    */
+
+    window.addEventListener(
+        "load",
+        () => {
+
+            playWeddingMusic();
+
+        }
+    );
+
+
+    /*
+       إذا منع المتصفح التشغيل التلقائي،
+       أول تفاعل مع الصفحة يشغل الأغنية.
+    */
+
+    const startMusicOnInteraction =
+        () => {
+
+            if (music.paused) {
+
+                playWeddingMusic();
+
+            }
+
+        };
+
+
+    document.addEventListener(
+        "click",
+        startMusicOnInteraction,
+        { once: true }
+    );
+
+
+    document.addEventListener(
+        "touchstart",
+        startMusicOnInteraction,
+        { once: true }
+    );
+
+
+    /*
+       حماية إضافية:
+       إذا انتهت الأغنية نعيدها من البداية.
+    */
+
+    music.addEventListener(
+        "ended",
+        () => {
+
+            music.currentTime = 0;
+
+            playWeddingMusic();
+
+        }
+    );
+
+}
 
 
 /* =========================================
-   5. عند انتهاء الأغنية
-========================================= */
-
-music.addEventListener(
-    "ended",
-    () => {
-
-        musicPlaying = false;
-
-        musicIcon.textContent = "▶";
-
-        musicText.textContent =
-            "تشغيل الموسيقى";
-
-    }
-);
-
-
-/* =========================================
-   6. زر تأكيد الحضور
+   5. ATTENDANCE
 ========================================= */
 
 const attendanceButton =
@@ -283,7 +328,7 @@ const attendanceModal =
 
 
 /* =========================================
-   7. رموز الانفجار
+   6. CELEBRATION SYMBOLS
 ========================================= */
 
 const celebrationSymbols = [
@@ -298,20 +343,23 @@ const celebrationSymbols = [
     "🌷",
     "✨",
     "💫",
-    "❣️",
     "🤍"
 
 ];
 
 
 /* =========================================
-   8. إنشاء قلب / وردة طائرة
+   7. CREATE PARTICLE
 ========================================= */
 
 function createCelebrationParticle(
     startX,
     startY
 ) {
+
+    if (!celebrationContainer)
+        return;
+
 
     const particle =
         document.createElement("div");
@@ -331,20 +379,13 @@ function createCelebrationParticle(
         ];
 
 
-    /*
-       نقطة البداية
-    */
-
     particle.style.left =
         `${startX}px`;
+
 
     particle.style.top =
         `${startY}px`;
 
-
-    /*
-       اتجاه الانفجار
-    */
 
     const angle =
         Math.random() *
@@ -352,18 +393,10 @@ function createCelebrationParticle(
         2;
 
 
-    /*
-       المسافة الأولى
-    */
-
     const distance1 =
-        80 +
-        Math.random() * 130;
+        70 +
+        Math.random() * 120;
 
-
-    /*
-       المسافة النهائية
-    */
 
     const distance2 =
         180 +
@@ -425,10 +458,6 @@ function createCelebrationParticle(
     );
 
 
-    /*
-       أحجام مختلفة
-    */
-
     const size =
         18 +
         Math.random() * 25;
@@ -438,22 +467,14 @@ function createCelebrationParticle(
         `${size}px`;
 
 
-    /*
-       تأخير بسيط عشوائي
-    */
-
     particle.style.animationDelay =
-        `${Math.random() * 0.15}s`;
+        `${Math.random() * .15}s`;
 
 
     celebrationContainer.appendChild(
         particle
     );
 
-
-    /*
-       حذف العنصر بعد انتهاء الحركة
-    */
 
     setTimeout(() => {
 
@@ -465,10 +486,14 @@ function createCelebrationParticle(
 
 
 /* =========================================
-   9. انفجار القلوب والورود
+   8. EXPLOSION
 ========================================= */
 
 function createCelebrationExplosion() {
+
+    if (!attendanceButton)
+        return;
+
 
     const buttonRect =
         attendanceButton.getBoundingClientRect();
@@ -484,11 +509,7 @@ function createCelebrationExplosion() {
         buttonRect.height / 2;
 
 
-    /*
-       عدد الجزيئات
-    */
-
-    const particleCount = 45;
+    const particleCount = 50;
 
 
     for (
@@ -512,56 +533,14 @@ function createCelebrationExplosion() {
 
 
 /* =========================================
-   10. تأثير الضغط على الزر
-========================================= */
-
-attendanceButton.addEventListener(
-    "click",
-    () => {
-
-        /*
-           نبضة للزر
-        */
-
-        attendanceButton.style.transform =
-            "scale(0.92)";
-
-
-        setTimeout(() => {
-
-            attendanceButton.style.transform =
-                "";
-
-        }, 180);
-
-
-        /*
-           انفجار القلوب والورود
-        */
-
-        createCelebrationExplosion();
-
-
-        /*
-           ظهور صندوق التأكيد
-           بعد الانفجار
-        */
-
-        setTimeout(() => {
-
-            openAttendanceModal();
-
-        }, 850);
-
-    }
-);
-
-
-/* =========================================
-   11. فتح صندوق الحضور
+   9. OPEN MODAL
 ========================================= */
 
 function openAttendanceModal() {
+
+    if (!attendanceModal)
+        return;
+
 
     attendanceModal.classList.add(
         "show"
@@ -574,10 +553,6 @@ function openAttendanceModal() {
     );
 
 
-    /*
-       منع Scroll خلف الصندوق
-    */
-
     document.body.style.overflow =
         "hidden";
 
@@ -585,22 +560,14 @@ function openAttendanceModal() {
 
 
 /* =========================================
-   12. إغلاق الصندوق
+   10. CLOSE MODAL
 ========================================= */
 
-const closeModal =
-    document.getElementById(
-        "closeModal"
-    );
-
-
-const modalCloseButton =
-    document.getElementById(
-        "modalCloseButton"
-    );
-
-
 function closeAttendanceModal() {
+
+    if (!attendanceModal)
+        return;
+
 
     attendanceModal.classList.remove(
         "show"
@@ -619,32 +586,131 @@ function closeAttendanceModal() {
 }
 
 
-closeModal.addEventListener(
-    "click",
-    closeAttendanceModal
-);
+const closeModal =
+    document.getElementById(
+        "closeModal"
+    );
 
 
-modalCloseButton.addEventListener(
-    "click",
-    closeAttendanceModal
-);
+const modalCloseButton =
+    document.getElementById(
+        "modalCloseButton"
+    );
 
 
-/* =========================================
-   13. الضغط خارج الصندوق
-========================================= */
+if (closeModal) {
 
-attendanceModal
-    .querySelector(".modal-overlay")
-    .addEventListener(
+    closeModal.addEventListener(
         "click",
         closeAttendanceModal
     );
 
+}
+
+
+if (modalCloseButton) {
+
+    modalCloseButton.addEventListener(
+        "click",
+        closeAttendanceModal
+    );
+
+}
+
 
 /* =========================================
-   14. زر ESC لإغلاق الصندوق
+   11. ATTENDANCE BUTTON
+========================================= */
+
+let attendanceLocked = false;
+
+
+if (attendanceButton) {
+
+    attendanceButton.addEventListener(
+        "click",
+        () => {
+
+            if (attendanceLocked)
+                return;
+
+
+            attendanceLocked = true;
+
+
+            /*
+               Button animation
+            */
+
+            attendanceButton.style.transform =
+                "scale(.92)";
+
+
+            setTimeout(() => {
+
+                attendanceButton.style.transform =
+                    "";
+
+            }, 180);
+
+
+            /*
+               Hearts + Flowers explosion
+            */
+
+            createCelebrationExplosion();
+
+
+            /*
+               Show attendance box
+               after explosion
+            */
+
+            setTimeout(() => {
+
+                openAttendanceModal();
+
+            }, 850);
+
+
+            setTimeout(() => {
+
+                attendanceLocked = false;
+
+            }, 1800);
+
+        }
+    );
+
+}
+
+
+/* =========================================
+   12. CLICK OUTSIDE MODAL
+========================================= */
+
+if (attendanceModal) {
+
+    const modalOverlay =
+        attendanceModal.querySelector(
+            ".modal-overlay"
+        );
+
+
+    if (modalOverlay) {
+
+        modalOverlay.addEventListener(
+            "click",
+            closeAttendanceModal
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   13. ESCAPE KEY
 ========================================= */
 
 document.addEventListener(
@@ -653,6 +719,7 @@ document.addEventListener(
 
         if (
             event.key === "Escape" &&
+            attendanceModal &&
             attendanceModal.classList.contains(
                 "show"
             )
@@ -667,61 +734,61 @@ document.addEventListener(
 
 
 /* =========================================
-   15. قلوب خفيفة عشوائية في الخلفية
+   14. BACKGROUND FLOATING ELEMENTS
 ========================================= */
 
-function createFloatingHeart() {
+function createFloatingDecoration() {
 
-    const heart =
+    const decoration =
         document.createElement("div");
 
 
-    heart.textContent =
+    decoration.textContent =
         Math.random() > .5
             ? "♡"
             : "✦";
 
 
-    heart.style.position =
+    decoration.style.position =
         "fixed";
 
 
-    heart.style.bottom =
+    decoration.style.bottom =
         "-30px";
 
 
-    heart.style.left =
+    decoration.style.left =
         `${Math.random() * 100}%`;
 
 
-    heart.style.color =
-        "rgba(229, 201, 135, .25)";
+    decoration.style.color =
+        "rgba(128,101,47,.20)";
 
 
-    heart.style.fontSize =
+    decoration.style.fontSize =
         `${12 + Math.random() * 18}px`;
 
 
-    heart.style.pointerEvents =
+    decoration.style.pointerEvents =
         "none";
 
 
-    heart.style.zIndex =
+    decoration.style.zIndex =
         "1";
 
 
-    heart.style.animation =
+    decoration.style.animation =
         "backgroundFloat 8s linear forwards";
 
 
     document.body.appendChild(
-        heart
+        decoration
     );
 
 
     setTimeout(() => {
 
-        heart.remove();
+        decoration.remove();
 
     }, 8000);
 
@@ -729,14 +796,14 @@ function createFloatingHeart() {
 
 
 /* =========================================
-   16. إضافة حركة الخلفية
+   15. BACKGROUND ANIMATION
 ========================================= */
 
-const backgroundAnimationStyle =
+const backgroundStyle =
     document.createElement("style");
 
 
-backgroundAnimationStyle.textContent = `
+backgroundStyle.textContent = `
 
 @keyframes backgroundFloat {
 
@@ -778,55 +845,24 @@ backgroundAnimationStyle.textContent = `
 
 
 document.head.appendChild(
-    backgroundAnimationStyle
+    backgroundStyle
 );
 
 
-/* =========================================
-   17. تشغيل الخلفية بشكل هادئ
-========================================= */
-
 setInterval(
-    createFloatingHeart,
+    createFloatingDecoration,
     1800
 );
 
 
 /* =========================================
-   18. منع الضغط المزدوج السريع
-========================================= */
-
-let attendanceLocked = false;
-
-
-attendanceButton.addEventListener(
-    "click",
-    () => {
-
-        if (attendanceLocked) {
-
-            return;
-
-        }
-
-
-        attendanceLocked = true;
-
-
-        setTimeout(() => {
-
-            attendanceLocked = false;
-
-        }, 1800);
-
-    }
-);
-
-
-/* =========================================
-   19. رسالة في Console للتأكد
+   16. FINAL CHECK
 ========================================= */
 
 console.log(
-    "💍 دعوة محمد & سماح تعمل بنجاح ❤️"
+    "💍 Wedding Invitation - Mohamed & Samah"
+);
+
+console.log(
+    "✨ Script loaded successfully"
 );
