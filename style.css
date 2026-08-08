@@ -9,33 +9,32 @@
 ========================================= */
 
 :root {
+    --beige: #f3ead8;
+    --beige-light: #faf5eb;
+    --beige-dark: #e5d5b9;
 
-    --green-dark: #17251f;
-    --green-main: #22382f;
-    --green-light: #315044;
+    --brown: #5a4633;
+    --brown-dark: #3f3023;
+    --brown-light: #80694e;
 
-    --gold: #c9a45c;
-    --gold-light: #e5c987;
-    --gold-dark: #987538;
-
-    --cream: #f8f3e8;
-    --cream-dark: #eee5d2;
+    --gold: #a8864d;
+    --gold-light: #c5a76a;
+    --gold-dark: #80652f;
 
     --white: #fffdf8;
 
-    --text-dark: #243129;
-    --text-light: #eee8dc;
+    --text-dark: #4b3929;
+    --text-light: #5a4633;
 
     --shadow:
-        0 15px 45px rgba(0, 0, 0, 0.18);
+        0 15px 45px rgba(82, 61, 37, 0.18);
 
     --soft-shadow:
-        0 8px 25px rgba(0, 0, 0, 0.12);
+        0 8px 25px rgba(82, 61, 37, 0.12);
 
     --transition:
         0.5s cubic-bezier(.22,.61,.36,1);
 }
-
 
 /* =========================================
    2. إعادة ضبط الصفحة
@@ -59,26 +58,22 @@ html {
 
 
 body {
-
     width: 100%;
     min-height: 100vh;
 
     background:
-        radial-gradient(
-            circle at top,
-            #30493e 0%,
-            var(--green-dark) 45%,
-            #101b17 100%
+        linear-gradient(
+            180deg,
+            #faf5eb,
+            #f3ead8
         );
 
-    color: var(--text-light);
+    color: var(--text-dark);
 
     font-family: "Cairo", sans-serif;
 
     overflow-x: hidden;
-
 }
-
 
 button,
 a {
