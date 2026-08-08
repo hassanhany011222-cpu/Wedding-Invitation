@@ -5,7 +5,7 @@
 
 
 /* =====================================================
-   1. MUSIC
+   MUSIC
 ===================================================== */
 
 const weddingMusic = document.getElementById("weddingMusic");
@@ -13,52 +13,37 @@ const weddingMusic = document.getElementById("weddingMusic");
 if (weddingMusic) {
 
     weddingMusic.volume = 0.7;
+    weddingMusic.loop = true;
 
-    // محاولة التشغيل التلقائي
-    const playMusic = () => {
+    // محاولة التشغيل تلقائيًا
+    weddingMusic.play().catch(() => {
+        console.log("Waiting for user interaction...");
+    });
 
-        weddingMusic.play().catch(() => {
-            // بعض المتصفحات تمنع التشغيل التلقائي
-            // وسيتم تشغيلها بعد أول تفاعل من المستخدم
-        });
-
-    };
-
-    playMusic();
-
-
-    // تشغيل الأغنية عند أول تفاعل
-    const startMusicAfterInteraction = () => {
+    // أول تفاعل مع الموقع يشغل الأغنية
+    const startMusic = () => {
 
         weddingMusic.play().catch(() => {});
 
-        document.removeEventListener(
-            "click",
-            startMusicAfterInteraction
-        );
-
-        document.removeEventListener(
-            "touchstart",
-            startMusicAfterInteraction
-        );
+        document.removeEventListener("click", startMusic);
+        document.removeEventListener("touchstart", startMusic);
+        document.removeEventListener("scroll", startMusic);
 
     };
 
-    document.addEventListener(
-        "click",
-        startMusicAfterInteraction,
-        { once: true }
-    );
+    document.addEventListener("click", startMusic, {
+        once: true
+    });
 
-    document.addEventListener(
-        "touchstart",
-        startMusicAfterInteraction,
-        { once: true }
-    );
+    document.addEventListener("touchstart", startMusic, {
+        once: true
+    });
+
+    document.addEventListener("scroll", startMusic, {
+        once: true
+    });
 
 }
-
-
 /* =====================================================
    2. COUNTDOWN
 ===================================================== */
