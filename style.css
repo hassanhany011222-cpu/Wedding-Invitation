@@ -982,23 +982,36 @@ h2 {
 }
 
 /* =====================================================
-   SCENE 6 - PHOTO / MOMENT
+   SLIDES - كل مشهد في شاشة مستقلة
+===================================================== */
+
+html {
+    scroll-snap-type: y mandatory;
+}
+
+.scene {
+    min-height: 100vh;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+}
+
+
+/* =====================================================
+   SCENE 6
 ===================================================== */
 
 .photo-scene {
     min-height: 100vh;
-    position: relative;
 }
 
 
-/* الحاوية */
-
 .photo-scene .section-content {
-    width: min(1100px, 100%);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+    width: min(1100px, 100%);
 }
 
 
@@ -1011,20 +1024,18 @@ h2 {
 
     font-weight: 700;
 
-    line-height: 1.5;
-
     color: #f2dca7;
 
     text-align: center;
 
+    line-height: 1.5;
+
     text-shadow:
         0 3px 15px rgba(201,162,78,0.25);
-
-    animation: photoTextAppear 1s ease both;
 }
 
 
-/* الخط والزخرفة */
+/* الفاصل */
 
 .photo-divider {
     width: min(700px, 70%);
@@ -1041,8 +1052,6 @@ h2 {
 }
 
 
-/* الخط */
-
 .photo-divider span {
     flex: 1;
 
@@ -1054,13 +1063,8 @@ h2 {
         #c9a24e,
         #f2dca7
     );
-
-    box-shadow:
-        0 0 8px rgba(201,162,78,0.35);
 }
 
-
-/* عكس اتجاه الخط الثاني */
 
 .photo-divider span:last-child {
     background: linear-gradient(
@@ -1075,29 +1079,22 @@ h2 {
 /* الزخرفة */
 
 .photo-ornament {
-    width: 62px;
-
-    height: 62px;
+    width: 60px;
+    height: 60px;
 
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     flex-shrink: 0;
 
-    font-family: serif;
-
-    font-size: 48px;
+    font-size: 45px;
 
     color: #f2dca7;
 
     text-shadow:
         0 0 12px rgba(242,220,167,0.7);
-
-    animation:
-        photoOrnamentGlow 2.5s ease-in-out infinite;
 }
 
 
@@ -1106,62 +1103,15 @@ h2 {
 .photo-caption {
     font-family: "Aref Ruqaa", serif;
 
-    font-size: clamp(34px, 5vw, 55px);
+    font-size: clamp(35px, 5vw, 55px);
 
     font-weight: 700;
-
-    line-height: 1.5;
 
     color: #f2dca7;
 
     text-align: center;
 
-    text-shadow:
-        0 3px 15px rgba(201,162,78,0.25);
-
-    animation:
-        photoTextAppear 1s ease 0.2s both;
-}
-
-
-/* =====================================================
-   ANIMATIONS
-===================================================== */
-
-@keyframes photoTextAppear {
-
-    from {
-        opacity: 0;
-
-        transform:
-            translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-
-        transform:
-            translateY(0);
-    }
-
-}
-
-
-@keyframes photoOrnamentGlow {
-
-    0%,
-    100% {
-        transform: scale(1);
-
-        opacity: 0.8;
-    }
-
-    50% {
-        transform: scale(1.12);
-
-        opacity: 1;
-    }
-
+    line-height: 1.5;
 }
 
 
@@ -1173,32 +1123,22 @@ h2 {
 
     .photo-title {
         font-size: 34px;
-
         padding: 0 15px;
     }
-
 
     .photo-caption {
-        font-size: 29px;
-
+        font-size: 30px;
         padding: 0 15px;
     }
 
-
     .photo-divider {
-        width: 88%;
-
+        width: 85%;
         gap: 10px;
-
-        margin: 15px auto;
     }
-
 
     .photo-ornament {
         width: 45px;
-
         height: 45px;
-
         font-size: 35px;
     }
 
