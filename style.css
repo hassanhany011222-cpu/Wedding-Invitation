@@ -1144,11 +1144,13 @@ html {
 
 }
 /* =====================================================
-   آخر 3 مشاهد فقط - Horizontal Slides
+   آخر 3 مشاهد فقط
+   Horizontal Slides
 ===================================================== */
 
 .last-three-slides {
-    width: 100%;
+
+    width: 100vw;
     height: 100vh;
 
     display: flex;
@@ -1158,9 +1160,12 @@ html {
     overflow-y: hidden;
 
     scroll-snap-type: x mandatory;
+
     scroll-behavior: smooth;
 
     scrollbar-width: none;
+
+    -webkit-overflow-scrolling: touch;
 }
 
 .last-three-slides::-webkit-scrollbar {
@@ -1168,13 +1173,15 @@ html {
 }
 
 
-/* كل واحد من الثلاثة يأخذ الشاشة كاملة */
+/* كل مشهد = شاشة كاملة */
 
-.last-three-slides > .scene {
+.last-three-slides > .last-slide {
+
     flex: 0 0 100vw;
 
     width: 100vw;
     min-width: 100vw;
+    max-width: 100vw;
 
     height: 100vh;
     min-height: 100vh;
@@ -1183,21 +1190,122 @@ html {
 
     scroll-snap-align: start;
     scroll-snap-stop: always;
+
+    overflow: hidden;
 }
 
 
-/* لا تجعل المشاهد الثلاثة تتضغط */
+/* =====================================================
+   منع الـ section-reveal من إخفاء المشاهد
+===================================================== */
 
-.last-three-slides .section-reveal {
-    flex-shrink: 0;
+.last-three-slides > .last-slide.section-reveal {
+
+    opacity: 1;
+    transform: none;
 }
 
 
-/* الموبايل */
+/* =====================================================
+   الشكل الخاص بالمشهد السادس
+===================================================== */
+
+.photo-title {
+
+    font-family: "Aref Ruqaa", serif;
+
+    font-size: clamp(42px, 6vw, 68px);
+
+    font-weight: 700;
+
+    color: #f2dca7;
+
+    text-align: center;
+
+    line-height: 1.5;
+}
+
+
+.photo-divider {
+
+    width: min(700px, 70%);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 22px;
+
+    margin: 20px auto;
+}
+
+
+.photo-divider span {
+
+    flex: 1;
+
+    height: 2px;
+
+    background: linear-gradient(
+        to right,
+        transparent,
+        #c9a24e,
+        #f2dca7
+    );
+}
+
+
+.photo-divider span:last-child {
+
+    background: linear-gradient(
+        to left,
+        transparent,
+        #c9a24e,
+        #f2dca7
+    );
+}
+
+
+.photo-ornament {
+
+    width: 60px;
+    height: 60px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 45px;
+
+    color: #f2dca7;
+}
+
+
+.photo-caption {
+
+    font-family: "Aref Ruqaa", serif;
+
+    font-size: clamp(35px, 5vw, 55px);
+
+    font-weight: 700;
+
+    color: #f2dca7;
+
+    text-align: center;
+}
+
+
+/* =====================================================
+   الموبايل
+===================================================== */
 
 @media (max-width: 800px) {
 
     .last-three-slides {
+
         width: 100vw;
         height: 100vh;
 
@@ -1205,7 +1313,8 @@ html {
         overflow-y: hidden;
     }
 
-    .last-three-slides > .scene {
+    .last-three-slides > .last-slide {
+
         flex: 0 0 100vw;
 
         width: 100vw;
@@ -1214,4 +1323,19 @@ html {
         height: 100vh;
         min-height: 100vh;
     }
+
+    .photo-title {
+
+        font-size: 34px;
+
+        padding: 0 15px;
+    }
+
+    .photo-caption {
+
+        font-size: 30px;
+
+        padding: 0 15px;
+    }
+
 }
