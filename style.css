@@ -1143,3 +1143,75 @@ html {
     }
 
 }
+/* =====================================================
+   آخر 3 مشاهد فقط - Horizontal Slides
+===================================================== */
+
+.last-three-slides {
+    width: 100%;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: row;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+
+    scrollbar-width: none;
+}
+
+.last-three-slides::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* كل واحد من الثلاثة يأخذ الشاشة كاملة */
+
+.last-three-slides > .scene {
+    flex: 0 0 100vw;
+
+    width: 100vw;
+    min-width: 100vw;
+
+    height: 100vh;
+    min-height: 100vh;
+
+    box-sizing: border-box;
+
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+}
+
+
+/* لا تجعل المشاهد الثلاثة تتضغط */
+
+.last-three-slides .section-reveal {
+    flex-shrink: 0;
+}
+
+
+/* الموبايل */
+
+@media (max-width: 800px) {
+
+    .last-three-slides {
+        width: 100vw;
+        height: 100vh;
+
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+    .last-three-slides > .scene {
+        flex: 0 0 100vw;
+
+        width: 100vw;
+        min-width: 100vw;
+
+        height: 100vh;
+        min-height: 100vh;
+    }
+}
