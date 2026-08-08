@@ -10,43 +10,34 @@
 
 const weddingMusic = document.getElementById("weddingMusic");
 
-let musicStarted = false;
+if (weddingMusic) {
 
-function startWeddingMusic() {
-
-    if (musicStarted || !weddingMusic) return;
-
-    weddingMusic.volume = 0.7;
     weddingMusic.loop = true;
+    weddingMusic.volume = 0.7;
 
-    weddingMusic.play()
-        .then(() => {
-            musicStarted = true;
-        })
-        .catch(() => {
-            // المتصفح ما زال مانع التشغيل
+    function playWeddingMusic() {
+        weddingMusic.play().catch(function(error) {
+            console.log("Music waiting for user interaction");
         });
+    }
+
+    // محاولة التشغيل عند فتح الصفحة
+    playWeddingMusic();
+
+    // أول تفاعل حقيقي مع الموقع
+    document.addEventListener("click", playWeddingMusic, {
+        once: true
+    });
+
+    document.addEventListener("touchstart", playWeddingMusic, {
+        once: true
+    });
+
+    document.addEventListener("scroll", playWeddingMusic, {
+        once: true,
+        passive: true
+    });
 }
-
-
-/* تشغيل الموسيقى عند أول Scroll */
-window.addEventListener("scroll", startWeddingMusic, {
-    once: true,
-    passive: true
-});
-
-
-/* تشغيل الموسيقى عند لمس الشاشة */
-window.addEventListener("touchstart", startWeddingMusic, {
-    once: true,
-    passive: true
-});
-
-
-/* تشغيل الموسيقى عند تحريك الماوس */
-window.addEventListener("mousemove", startWeddingMusic, {
-    once: true
-});
 
 /* =====================================================
    2. COUNTDOWN
