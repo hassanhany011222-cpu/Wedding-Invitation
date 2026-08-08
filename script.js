@@ -8,43 +8,45 @@
    MUSIC
 ===================================================== */
 
-const weddingMusic =
-    document.getElementById("weddingMusic");
+const weddingMusic = document.getElementById("weddingMusic");
 
-if (weddingMusic) {
+let musicStarted = false;
+
+function startWeddingMusic() {
+
+    if (musicStarted || !weddingMusic) return;
 
     weddingMusic.volume = 0.7;
     weddingMusic.loop = true;
 
-    function startMusic() {
-
-        weddingMusic.play().catch(() => {});
-
-    }
-
-    // محاولة التشغيل بمجرد فتح الموقع
-    startMusic();
-
-    // أول تفاعل مع الموقع
-    document.addEventListener(
-        "click",
-        startMusic,
-        { once: true }
-    );
-
-    document.addEventListener(
-        "touchstart",
-        startMusic,
-        { once: true }
-    );
-
-    document.addEventListener(
-        "scroll",
-        startMusic,
-        { once: true }
-    );
-
+    weddingMusic.play()
+        .then(() => {
+            musicStarted = true;
+        })
+        .catch(() => {
+            // المتصفح ما زال مانع التشغيل
+        });
 }
+
+
+/* تشغيل الموسيقى عند أول Scroll */
+window.addEventListener("scroll", startWeddingMusic, {
+    once: true,
+    passive: true
+});
+
+
+/* تشغيل الموسيقى عند لمس الشاشة */
+window.addEventListener("touchstart", startWeddingMusic, {
+    once: true,
+    passive: true
+});
+
+
+/* تشغيل الموسيقى عند تحريك الماوس */
+window.addEventListener("mousemove", startWeddingMusic, {
+    once: true
+});
 
 /* =====================================================
    2. COUNTDOWN
@@ -391,27 +393,17 @@ function closeAttendanceModal() {
 /* =====================================================
    8. ATTENDANCE BUTTON ACTION
 ===================================================== */
-
 if (attendanceButton) {
 
-    attendanceButton.addEventListener(
-        "click",
-        () => {
+    attendanceButton.addEventListener("click", () => {
 
+        createCelebration();
 
-            // انفجار القلوب والورود
-            createCelebration();
+        setTimeout(() => {
+            openAttendanceModal();
+        }, 1200);
 
-
-            // ننتظر لحظة قبل ظهور الصندوق
-            setTimeout(() => {
-
-                openAttendanceModal();
-
-            }, 1200);
-
-        }
-    );
+    });
 
 }
 
