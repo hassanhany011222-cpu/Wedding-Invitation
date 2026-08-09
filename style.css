@@ -1210,3 +1210,73 @@ h2 {
     }
 
 }
+/* =====================================================
+   المشهد الرابع فقط
+   التاريخ والموعد بجانب بعض
+   والعداد أسفلهم
+   ===================================================== */
+
+.date-scene .date-time-grid {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto 45px;
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+
+    align-items: stretch;
+}
+
+.date-scene .info-card {
+    min-height: 250px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 35px 25px;
+}
+
+/* العداد تحت التاريخ والموعد */
+.date-scene .countdown-area {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.date-scene .countdown-title {
+    margin-bottom: 25px;
+}
+
+.date-scene .countdown {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+/* =====================================================
+   الموبايل
+   ===================================================== */
+
+@media (max-width: 700px) {
+
+    .date-scene .date-time-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .date-scene .info-card {
+        min-height: 230px;
+        padding: 25px 12px;
+    }
+
+    .date-scene .countdown {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+}
