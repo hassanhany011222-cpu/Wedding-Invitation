@@ -979,212 +979,123 @@ h2 {
         font-size: 25px;
     }
 
-}
-/* =====================================================
-   SCENE 6 - FINAL DESIGN
+}/* =====================================================
+   المشهد السادس الجديد
 ===================================================== */
 
-.final-scene {
-    min-height: 100vh;
-
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(145, 91, 135, 0.25),
-            transparent 55%
-        ),
-        linear-gradient(
-            135deg,
-            #4d2b50,
-            #67375f,
-            #4d2b50
-        );
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    text-align: center;
-}
-
-
-.final-scene-content {
-    width: 100%;
-    max-width: 900px;
-
+.sixth-scene {
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    padding: 30px;
+    justify-content: center;
 }
 
 
 /* العنوان */
 
-.final-title {
-    font-family: "Amiri", serif;
+.sixth-title {
+    font-family: "Aref Ruqaa", serif;
+    font-size: clamp(42px, 8vw, 85px);
+    line-height: 1.45;
+    color: #f2d58b;
 
-    color: #f1d78f !important;
+    text-align: center;
 
-    font-size:
-        clamp(42px, 7vw, 75px);
-
-    font-weight: 700;
-
-    margin: 0;
+    margin: 0 0 35px;
 
     text-shadow:
-        0 4px 15px rgba(0,0,0,.18);
-
-    animation:
-        finalTitleFloat 4s ease-in-out infinite;
+        0 4px 18px rgba(0, 0, 0, 0.25);
 }
 
 
-@keyframes finalTitleFloat {
+/* الخط + القلب */
 
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-7px);
-    }
-
-}
-
-
-/* الخطوط والرمز */
-
-.final-divider {
-    width: min(600px, 80%);
-
+.heart-divider {
+    width: min(700px, 85%);
+    
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
-    gap: 35px;
+    gap: 25px;
 
-    margin: 30px 0 45px;
+    margin: 10px auto 50px;
 }
 
 
-.final-divider span {
-    height: 2px;
+/* الخط الذهبي */
 
+.heart-line {
+    height: 2px;
     flex: 1;
 
-    max-width: 180px;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            #d8b65e,
-            transparent
-        );
+    background: linear-gradient(
+        to right,
+        transparent,
+        #d8b45a,
+        transparent
+    );
 
     box-shadow:
-        0 0 8px rgba(216,182,94,.35);
+        0 0 8px rgba(216,180,90,0.5);
 }
 
 
-.final-divider b {
-    font-family: "Amiri", serif;
+/* القلب الموجود في المنتصف */
 
-    color: #f1d78f;
+.center-heart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    font-size: 38px;
+    width: 65px;
+    height: 65px;
 
-    font-weight: 400;
+    color: #f4d477;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 58px;
+
+    line-height: 1;
 
     text-shadow:
-        0 0 15px rgba(241,215,143,.5);
+        0 0 10px rgba(244,212,119,0.6),
+        0 0 25px rgba(244,212,119,0.3);
 
-    animation:
-        finalSymbol 2.5s ease-in-out infinite;
-}
-
-
-@keyframes finalSymbol {
-
-    0%,
-    100% {
-        transform: scale(1) rotate(0);
-    }
-
-    50% {
-        transform: scale(1.15) rotate(5deg);
-    }
-
+    animation: centerHeartBeat 2s ease-in-out infinite;
 }
 
 
 /* بداية حكاية جميلة */
 
-.final-message {
-    display: flex;
+.sixth-scene .photo-caption {
+    font-family: "Aref Ruqaa", serif;
 
-    align-items: center;
+    font-size: clamp(30px, 6vw, 58px);
 
-    justify-content: center;
+    color: #f2d58b;
 
-    gap: 18px;
+    margin: 0;
 
-    color: #f4dfaa;
-
-    font-family: "Amiri", serif;
-
-    font-size:
-        clamp(32px, 5vw, 55px);
-
-    font-weight: 700;
+    text-align: center;
 
     text-shadow:
-        0 3px 12px rgba(0,0,0,.2);
+        0 4px 15px rgba(0,0,0,0.2);
 }
 
 
-/* القلب */
+/* حركة القلب */
 
-.final-heart {
-    font-family: sans-serif;
-
-    font-size:
-        clamp(40px, 6vw, 65px);
-
-    display: inline-block;
-
-    animation:
-        finalHeartBeat 1.5s infinite;
-}
-
-
-@keyframes finalHeartBeat {
+@keyframes centerHeartBeat {
 
     0%,
     100% {
         transform: scale(1);
     }
 
-    15% {
-        transform: scale(1.2);
-    }
-
-    30% {
-        transform: scale(1);
-    }
-
-    45% {
-        transform: scale(1.15);
-    }
-
-    60% {
-        transform: scale(1);
+    50% {
+        transform: scale(1.18);
     }
 
 }
@@ -1194,26 +1105,25 @@ h2 {
 
 @media (max-width: 600px) {
 
-    .final-scene-content {
-        padding: 20px;
+    .sixth-title {
+        font-size: 46px;
+        line-height: 1.5;
     }
 
-
-    .final-divider {
-        gap: 18px;
-
-        margin:
-            25px 0 35px;
+    .heart-divider {
+        width: 85%;
+        gap: 12px;
+        margin-bottom: 40px;
     }
 
-
-    .final-divider span {
-        max-width: 110px;
+    .center-heart {
+        width: 55px;
+        height: 55px;
+        font-size: 48px;
     }
 
-
-    .final-message {
-        gap: 10px;
+    .sixth-scene .photo-caption {
+        font-size: 34px;
     }
 
 }
