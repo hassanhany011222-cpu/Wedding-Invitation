@@ -399,7 +399,6 @@ if (attendanceButton) {
 
 }
 
-
             // انفجار القلوب والورود
             createCelebration();
 
