@@ -1280,3 +1280,10 @@ h2 {
     }
 
 }
+.date-star {
+    font-size: 55px;
+    color: var(--gold-light);
+    margin-bottom: 20px;
+    line-height: 1;
+    text-shadow: 0 0 15px rgba(223, 196, 127, 0.35);
+}
