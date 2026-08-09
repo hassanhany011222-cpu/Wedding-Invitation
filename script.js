@@ -3,6 +3,7 @@
    Mohamed & Samah
 ===================================================== */
 
+
 /* =====================================================
    1. MUSIC
 ===================================================== */
@@ -11,36 +12,50 @@ const weddingMusic = document.getElementById("weddingMusic");
 
 if (weddingMusic) {
 
-    weddingMusic.loop = true;
     weddingMusic.volume = 0.7;
 
-    function playWeddingMusic() {
+    // محاولة التشغيل التلقائي
+    const playMusic = () => {
+
         weddingMusic.play().catch(() => {
-            console.log("Waiting for user interaction...");
+            // بعض المتصفحات تمنع التشغيل التلقائي
+            // وسيتم تشغيلها بعد أول تفاعل من المستخدم
         });
-    }
 
-    // محاولة التشغيل عند فتح الموقع
-    playWeddingMusic();
-
-    // تشغيل الموسيقى عند أول تفاعل مع الموقع
-    const startMusicOnce = () => {
-        playWeddingMusic();
     };
 
-    document.addEventListener("click", startMusicOnce, {
-        once: true
-    });
+    playMusic();
 
-    document.addEventListener("touchstart", startMusicOnce, {
-        once: true,
-        passive: true
-    });
 
-    document.addEventListener("scroll", startMusicOnce, {
-        once: true,
-        passive: true
-    });
+    // تشغيل الأغنية عند أول تفاعل
+    const startMusicAfterInteraction = () => {
+
+        weddingMusic.play().catch(() => {});
+
+        document.removeEventListener(
+            "click",
+            startMusicAfterInteraction
+        );
+
+        document.removeEventListener(
+            "touchstart",
+            startMusicAfterInteraction
+        );
+
+    };
+
+    document.addEventListener(
+        "click",
+        startMusicAfterInteraction,
+        { once: true }
+    );
+
+    document.addEventListener(
+        "touchstart",
+        startMusicAfterInteraction,
+        { once: true }
+    );
+
 }
 
 
@@ -48,6 +63,7 @@ if (weddingMusic) {
    2. COUNTDOWN
 ===================================================== */
 
+// موعد الفرح
 const weddingDate = new Date(
     "September 22, 2026 21:00:00"
 ).getTime();
@@ -56,74 +72,79 @@ const weddingDate = new Date(
 function updateCountdown() {
 
     const now = new Date().getTime();
+
     const difference = weddingDate - now;
 
+
+    // لو الموعد انتهى
     if (difference <= 0) {
 
-        const days = document.getElementById("days");
-        const hours = document.getElementById("hours");
-        const minutes = document.getElementById("minutes");
-        const seconds = document.getElementById("seconds");
-
-        if (days) days.textContent = "00";
-        if (hours) hours.textContent = "00";
-        if (minutes) minutes.textContent = "00";
-        if (seconds) seconds.textContent = "00";
+        document.getElementById("days").textContent = "00";
+        document.getElementById("hours").textContent = "00";
+        document.getElementById("minutes").textContent = "00";
+        document.getElementById("seconds").textContent = "00";
 
         return;
+
     }
+
 
     const days = Math.floor(
         difference / (1000 * 60 * 60 * 24)
     );
 
+
     const hours = Math.floor(
-        (difference % (1000 * 60 * 60 * 24)) /
+        (difference %
+            (1000 * 60 * 60 * 24))
+        /
         (1000 * 60 * 60)
     );
 
+
     const minutes = Math.floor(
-        (difference % (1000 * 60 * 60)) /
+        (difference %
+            (1000 * 60 * 60))
+        /
         (1000 * 60)
     );
 
+
     const seconds = Math.floor(
-        (difference % (1000 * 60)) /
+        (difference %
+            (1000 * 60))
+        /
         1000
     );
 
 
-    const daysElement = document.getElementById("days");
-    const hoursElement = document.getElementById("hours");
-    const minutesElement = document.getElementById("minutes");
-    const secondsElement = document.getElementById("seconds");
+    document.getElementById("days").textContent =
+        String(days).padStart(2, "0");
 
 
-    if (daysElement) {
-        daysElement.textContent =
-            String(days).padStart(2, "0");
-    }
+    document.getElementById("hours").textContent =
+        String(hours).padStart(2, "0");
 
-    if (hoursElement) {
-        hoursElement.textContent =
-            String(hours).padStart(2, "0");
-    }
 
-    if (minutesElement) {
-        minutesElement.textContent =
-            String(minutes).padStart(2, "0");
-    }
+    document.getElementById("minutes").textContent =
+        String(minutes).padStart(2, "0");
 
-    if (secondsElement) {
-        secondsElement.textContent =
-            String(seconds).padStart(2, "0");
-    }
+
+    document.getElementById("seconds").textContent =
+        String(seconds).padStart(2, "0");
+
 }
 
 
+// تشغيل العداد فورًا
 updateCountdown();
 
-setInterval(updateCountdown, 1000);
+
+// تحديث كل ثانية
+setInterval(
+    updateCountdown,
+    1000
+);
 
 
 /* =====================================================
@@ -134,46 +155,41 @@ const revealSections =
     document.querySelectorAll(".section-reveal");
 
 
-if ("IntersectionObserver" in window) {
+const revealObserver =
+    new IntersectionObserver(
 
-    const revealObserver =
-        new IntersectionObserver(
-            (entries) => {
+        (entries) => {
 
-                entries.forEach((entry) => {
+            entries.forEach((entry) => {
 
-                    if (entry.isIntersecting) {
+                if (entry.isIntersecting) {
 
-                        entry.target.classList.add(
-                            "visible"
-                        );
+                    entry.target.classList.add(
+                        "visible"
+                    );
 
-                    }
+                }
 
-                });
+            });
 
-            },
-            {
-                threshold: 0.15
-            }
-        );
+        },
+
+        {
+            threshold: 0.15
+        }
+
+    );
 
 
-    revealSections.forEach((section) => {
-        revealObserver.observe(section);
-    });
+revealSections.forEach((section) => {
 
-} else {
+    revealObserver.observe(section);
 
-    revealSections.forEach((section) => {
-        section.classList.add("visible");
-    });
-
-}
+});
 
 
 /* =====================================================
-   4. RSVP ELEMENTS
+   4. RSVP BUTTON
 ===================================================== */
 
 const attendanceButton =
@@ -224,12 +240,12 @@ function createCelebration() {
         "🤎",
         "🌸",
         "🌹",
-        "🌷",
-        "✨",
-        "✦"
+        "✦",
+        "✨"
     ];
 
 
+    // عدد العناصر
     const numberOfItems = 70;
 
 
@@ -247,6 +263,7 @@ function createCelebration() {
             "celebration-item";
 
 
+        // اختيار رمز عشوائي
         item.textContent =
             symbols[
                 Math.floor(
@@ -256,10 +273,7 @@ function createCelebration() {
             ];
 
 
-        /*
-           بداية الانفجار
-        */
-
+        // نقطة بداية قريبة من الزر
         const startX =
             35 +
             Math.random() * 30;
@@ -278,10 +292,7 @@ function createCelebration() {
             startY + "%";
 
 
-        /*
-           اتجاه الانفجار
-        */
-
+        // اتجاه الانفجار
         const x =
             (Math.random() * 700) - 350;
 
@@ -302,10 +313,7 @@ function createCelebration() {
         );
 
 
-        /*
-           أحجام مختلفة
-        */
-
+        // أحجام مختلفة
         const size =
             18 +
             Math.random() * 28;
@@ -315,10 +323,7 @@ function createCelebration() {
             `${size}px`;
 
 
-        /*
-           توقيت عشوائي بسيط
-        */
-
+        // تأخير بسيط
         item.style.animationDelay =
             `${Math.random() * 0.25}s`;
 
@@ -328,15 +333,12 @@ function createCelebration() {
         );
 
 
-        /*
-           حذف العنصر بعد انتهاء الحركة
-        */
-
+        // حذف العنصر بعد انتهاء الحركة
         setTimeout(() => {
 
             item.remove();
 
-        }, 2500);
+        }, 2300);
 
     }
 
@@ -344,7 +346,7 @@ function createCelebration() {
 
 
 /* =====================================================
-   6. OPEN RSVP MODAL
+   6. OPEN MODAL
 ===================================================== */
 
 function openAttendanceModal() {
@@ -372,7 +374,7 @@ function openAttendanceModal() {
 
 
 /* =====================================================
-   7. CLOSE RSVP MODAL
+   7. CLOSE MODAL
 ===================================================== */
 
 function closeAttendanceModal() {
@@ -400,7 +402,7 @@ function closeAttendanceModal() {
 
 
 /* =====================================================
-   8. RSVP BUTTON
+   8. ATTENDANCE BUTTON ACTION
 ===================================================== */
 
 if (attendanceButton) {
@@ -409,32 +411,21 @@ if (attendanceButton) {
         "click",
         () => {
 
-            /*
-               تشغيل الموسيقى أيضًا
-               عند الضغط على الزر
-            */
-
+            // تشغيل الموسيقى لو المتصفح منعها
             if (weddingMusic) {
 
-                weddingMusic
-                    .play()
-                    .catch(() => {});
+                weddingMusic.play().catch(
+                    () => {}
+                );
 
             }
 
 
-            /*
-               انفجار القلوب والورود
-            */
-
+            // انفجار القلوب والورود
             createCelebration();
 
 
-            /*
-               ننتظر حتى يظهر الانفجار
-               ثم نفتح صندوق التأكيد
-            */
-
+            // ننتظر لحظة قبل ظهور الصندوق
             setTimeout(() => {
 
                 openAttendanceModal();
@@ -524,7 +515,7 @@ document.documentElement.style.scrollBehavior =
 
 
 /* =====================================================
-   13. BROKEN IMAGE HANDLING
+   13. PREVENT BROKEN IMAGE LOOK
 ===================================================== */
 
 const weddingImage =
@@ -539,9 +530,8 @@ if (weddingImage) {
         "error",
         () => {
 
-            console.log(
-                "Wedding image not found."
-            );
+            weddingImage.style.display =
+                "none";
 
         }
     );
