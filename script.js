@@ -10,53 +10,43 @@
 
 const weddingMusic = document.getElementById("weddingMusic");
 
-if (weddingMusic) {
+let musicStarted = false;
+
+function startWeddingMusic() {
+
+    if (musicStarted || !weddingMusic) return;
 
     weddingMusic.volume = 0.7;
+    weddingMusic.loop = true;
 
-    // محاولة التشغيل التلقائي
-    const playMusic = () => {
-
-        weddingMusic.play().catch(() => {
-            // بعض المتصفحات تمنع التشغيل التلقائي
-            // وسيتم تشغيلها بعد أول تفاعل من المستخدم
+    weddingMusic.play()
+        .then(() => {
+            musicStarted = true;
+        })
+        .catch(() => {
+            // المتصفح ما زال مانع التشغيل
         });
-
-    };
-
-    playMusic();
-
-
-    // تشغيل الأغنية عند أول تفاعل
-    const startMusicAfterInteraction = () => {
-
-        weddingMusic.play().catch(() => {});
-
-        document.removeEventListener(
-            "click",
-            startMusicAfterInteraction
-        );
-
-        document.removeEventListener(
-            "touchstart",
-            startMusicAfterInteraction
-        );
-
-    };
-
-    document.addEventListener(
-        "click",
-        startMusicAfterInteraction,
-        { once: true }
-    );
-
-    document.addEventListener(
-        "touchstart",
-        startMusicAfterInteraction,
-        { once: true }
-    );
-
 }
+
+
+/* تشغيل الموسيقى عند أول Scroll */
+window.addEventListener("scroll", startWeddingMusic, {
+    once: true,
+    passive: true
+});
+
+
+/* تشغيل الموسيقى عند لمس الشاشة */
+window.addEventListener("touchstart", startWeddingMusic, {
+    once: true,
+    passive: true
+});
+
+
+/* تشغيل الموسيقى عند تحريك الماوس */
+window.addEventListener("mousemove", startWeddingMusic, {
+    once: true
+});
 
 
 /* =====================================================
@@ -407,18 +397,17 @@ function closeAttendanceModal() {
 
 if (attendanceButton) {
 
-    attendanceButton.addEventListener(
-        "click",
-        () => {
+    attendanceButton.addEventListener("click", () => {
 
-            // تشغيل الموسيقى لو المتصفح منعها
-            if (weddingMusic) {
+        createCelebration();
 
-                weddingMusic.play().catch(
-                    () => {}
-                );
+        setTimeout(() => {
+            openAttendanceModal();
+        }, 1200);
 
-            }
+    });
+
+}
 
 
             // انفجار القلوب والورود
