@@ -1,6 +1,6 @@
 /* =====================================================
-   Wedding Invitation
-   Mohamed & Samah
+   WEDDING INVITATION
+   MOHAMED & SAMAH
 ===================================================== */
 
 
@@ -8,149 +8,281 @@
    MUSIC
 ===================================================== */
 
-const weddingMusic = document.getElementById("weddingMusic");
+const weddingMusic =
+    document.getElementById("weddingMusic");
 
-if (weddingMusic) {
+let musicStarted = false;
 
-    weddingMusic.loop = true;
-    weddingMusic.volume = 0.7;
 
-    function playWeddingMusic() {
-        weddingMusic.play().catch(function(error) {
-            console.log("Music waiting for user interaction");
-        });
+/*
+    تشغيل الأغنية
+*/
+
+function startWeddingMusic() {
+
+    if (!weddingMusic || musicStarted) {
+        return;
     }
 
-    // محاولة التشغيل عند فتح الصفحة
-    playWeddingMusic();
 
-    // أول تفاعل حقيقي مع الموقع
-    document.addEventListener("click", playWeddingMusic, {
-        once: true
-    });
+    weddingMusic.volume = 0.7;
 
-    document.addEventListener("touchstart", playWeddingMusic, {
-        once: true
-    });
+    weddingMusic.loop = true;
 
-    document.addEventListener("scroll", playWeddingMusic, {
-        once: true,
-        passive: true
-    });
+
+    weddingMusic.play()
+        .then(() => {
+
+            musicStarted = true;
+
+            console.log(
+                "Wedding music started"
+            );
+
+        })
+        .catch(() => {
+
+            console.log(
+                "Browser blocked autoplay"
+            );
+
+        });
+
 }
 
+
+/*
+    محاولة التشغيل عند فتح الصفحة
+*/
+
+startWeddingMusic();
+
+
+/*
+    أول تفاعل مع الصفحة
+    يشغل الأغنية.
+
+    نستثني زر تأكيد الحضور
+    حتى لا يكون هو الذي يبدأ الأغنية.
+*/
+
+document.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            event.target.closest(
+                "#attendanceButton"
+            )
+        ) {
+            return;
+        }
+
+        startWeddingMusic();
+
+    },
+    {
+        once: true
+    }
+);
+
+
+document.addEventListener(
+    "touchstart",
+    function(event) {
+
+        if (
+            event.target.closest(
+                "#attendanceButton"
+            )
+        ) {
+            return;
+        }
+
+        startWeddingMusic();
+
+    },
+    {
+        once: true,
+        passive: true
+    }
+);
+
+
+/*
+    تشغيل عند بداية الـ Scroll
+*/
+
+window.addEventListener(
+    "scroll",
+    function() {
+
+        startWeddingMusic();
+
+    },
+    {
+        once: true,
+        passive: true
+    }
+);
+
+
+
 /* =====================================================
-   2. COUNTDOWN
+   COUNTDOWN
 ===================================================== */
 
-// موعد الفرح
-const weddingDate = new Date(
-    "September 22, 2026 21:00:00"
-).getTime();
+
+/*
+    22 September 2026
+    9:00 PM
+*/
+
+const weddingDate =
+    new Date(
+        "September 22, 2026 21:00:00"
+    ).getTime();
 
 
 function updateCountdown() {
 
-    const now = new Date().getTime();
+    const now =
+        new Date().getTime();
 
-    const difference = weddingDate - now;
+
+    const difference =
+        weddingDate - now;
 
 
-    // لو الموعد انتهى
     if (difference <= 0) {
 
-        document.getElementById("days").textContent = "00";
-        document.getElementById("hours").textContent = "00";
-        document.getElementById("minutes").textContent = "00";
-        document.getElementById("seconds").textContent = "00";
+        document.getElementById(
+            "days"
+        ).textContent = "00";
+
+
+        document.getElementById(
+            "hours"
+        ).textContent = "00";
+
+
+        document.getElementById(
+            "minutes"
+        ).textContent = "00";
+
+
+        document.getElementById(
+            "seconds"
+        ).textContent = "00";
+
 
         return;
-
     }
 
 
-    const days = Math.floor(
-        difference / (1000 * 60 * 60 * 24)
-    );
+    const days =
+        Math.floor(
+            difference /
+            (1000 * 60 * 60 * 24)
+        );
 
 
-    const hours = Math.floor(
-        (difference %
-            (1000 * 60 * 60 * 24))
-        /
-        (1000 * 60 * 60)
-    );
+    const hours =
+        Math.floor(
+            (
+                difference %
+                (1000 * 60 * 60 * 24)
+            ) /
+            (1000 * 60 * 60)
+        );
 
 
-    const minutes = Math.floor(
-        (difference %
-            (1000 * 60 * 60))
-        /
-        (1000 * 60)
-    );
+    const minutes =
+        Math.floor(
+            (
+                difference %
+                (1000 * 60 * 60)
+            ) /
+            (1000 * 60)
+        );
 
 
-    const seconds = Math.floor(
-        (difference %
-            (1000 * 60))
-        /
-        1000
-    );
+    const seconds =
+        Math.floor(
+            (
+                difference %
+                (1000 * 60)
+            ) /
+            1000
+        );
 
 
-    document.getElementById("days").textContent =
+    document.getElementById(
+        "days"
+    ).textContent =
         String(days).padStart(2, "0");
 
 
-    document.getElementById("hours").textContent =
+    document.getElementById(
+        "hours"
+    ).textContent =
         String(hours).padStart(2, "0");
 
 
-    document.getElementById("minutes").textContent =
+    document.getElementById(
+        "minutes"
+    ).textContent =
         String(minutes).padStart(2, "0");
 
 
-    document.getElementById("seconds").textContent =
+    document.getElementById(
+        "seconds"
+    ).textContent =
         String(seconds).padStart(2, "0");
 
 }
 
 
-// تشغيل العداد فورًا
 updateCountdown();
 
 
-// تحديث كل ثانية
 setInterval(
     updateCountdown,
     1000
 );
 
 
+
 /* =====================================================
-   3. SCROLL REVEAL
+   SCROLL REVEAL
 ===================================================== */
 
-const revealSections =
-    document.querySelectorAll(".section-reveal");
+const revealElements =
+    document.querySelectorAll(
+        ".reveal"
+    );
 
 
 const revealObserver =
     new IntersectionObserver(
 
-        (entries) => {
+        function(entries) {
 
-            entries.forEach((entry) => {
+            entries.forEach(
+                function(entry) {
 
-                if (entry.isIntersecting) {
+                    if (
+                        entry.isIntersecting
+                    ) {
 
-                    entry.target.classList.add(
-                        "visible"
-                    );
+                        entry.target.classList.add(
+                            "visible"
+                        );
+
+                    }
 
                 }
-
-            });
+            );
 
         },
 
@@ -161,15 +293,20 @@ const revealObserver =
     );
 
 
-revealSections.forEach((section) => {
+revealElements.forEach(
+    function(element) {
 
-    revealObserver.observe(section);
+        revealObserver.observe(
+            element
+        );
 
-});
+    }
+);
+
 
 
 /* =====================================================
-   4. RSVP BUTTON
+   RSVP
 ===================================================== */
 
 const attendanceButton =
@@ -202,8 +339,9 @@ const modalCloseButton =
     );
 
 
+
 /* =====================================================
-   5. HEARTS + FLOWERS EXPLOSION
+   CELEBRATION EXPLOSION
 ===================================================== */
 
 function createCelebration() {
@@ -214,19 +352,21 @@ function createCelebration() {
 
 
     const symbols = [
+
         "♥",
         "♡",
         "💜",
         "🤎",
         "🌸",
         "🌹",
+        "🌷",
         "✦",
         "✨"
+
     ];
 
 
-    // عدد العناصر
-    const numberOfItems = 70;
+    const numberOfItems = 75;
 
 
     for (
@@ -235,15 +375,17 @@ function createCelebration() {
         i++
     ) {
 
+
         const item =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
 
         item.className =
             "celebration-item";
 
 
-        // اختيار رمز عشوائي
         item.textContent =
             symbols[
                 Math.floor(
@@ -253,15 +395,18 @@ function createCelebration() {
             ];
 
 
-        // نقطة بداية قريبة من الزر
+        /*
+            بداية الانفجار
+        */
+
         const startX =
-            35 +
-            Math.random() * 30;
+            30 +
+            Math.random() * 40;
 
 
         const startY =
-            55 +
-            Math.random() * 10;
+            48 +
+            Math.random() * 12;
 
 
         item.style.left =
@@ -272,13 +417,20 @@ function createCelebration() {
             startY + "%";
 
 
-        // اتجاه الانفجار
+        /*
+            اتجاه الانفجار
+        */
+
         const x =
-            (Math.random() * 700) - 350;
+            Math.random() *
+            700 -
+            350;
 
 
         const y =
-            (Math.random() * 600) - 400;
+            Math.random() *
+            650 -
+            400;
 
 
         item.style.setProperty(
@@ -293,19 +445,25 @@ function createCelebration() {
         );
 
 
-        // أحجام مختلفة
+        /*
+            حجم عشوائي
+        */
+
         const size =
-            18 +
-            Math.random() * 28;
+            16 +
+            Math.random() * 25;
 
 
         item.style.fontSize =
             `${size}px`;
 
 
-        // تأخير بسيط
+        /*
+            تأخير بسيط
+        */
+
         item.style.animationDelay =
-            `${Math.random() * 0.25}s`;
+            `${Math.random() * 0.2}s`;
 
 
         celebrationContainer.appendChild(
@@ -313,20 +471,23 @@ function createCelebration() {
         );
 
 
-        // حذف العنصر بعد انتهاء الحركة
-        setTimeout(() => {
+        setTimeout(
+            function() {
 
-            item.remove();
+                item.remove();
 
-        }, 2300);
+            },
+            2400
+        );
 
     }
 
 }
 
 
+
 /* =====================================================
-   6. OPEN MODAL
+   OPEN MODAL
 ===================================================== */
 
 function openAttendanceModal() {
@@ -353,8 +514,9 @@ function openAttendanceModal() {
 }
 
 
+
 /* =====================================================
-   7. CLOSE MODAL
+   CLOSE MODAL
 ===================================================== */
 
 function closeAttendanceModal() {
@@ -381,26 +543,53 @@ function closeAttendanceModal() {
 }
 
 
+
 /* =====================================================
-   8. ATTENDANCE BUTTON ACTION
+   RSVP BUTTON
 ===================================================== */
+
 if (attendanceButton) {
 
-    attendanceButton.addEventListener("click", () => {
+    attendanceButton.addEventListener(
+        "click",
+        function() {
 
-        createCelebration();
 
-        setTimeout(() => {
-            openAttendanceModal();
-        }, 1200);
+            /*
+                مهم:
+                لا نشغل الموسيقى هنا.
+            */
 
-    });
+
+            /*
+                انفجار القلوب والورود
+            */
+
+            createCelebration();
+
+
+            /*
+                ظهور الصندوق بعد الانفجار
+            */
+
+            setTimeout(
+                function() {
+
+                    openAttendanceModal();
+
+                },
+                1200
+            );
+
+        }
+    );
 
 }
 
 
+
 /* =====================================================
-   9. CLOSE BUTTON
+   CLOSE BUTTON
 ===================================================== */
 
 if (closeModal) {
@@ -423,20 +612,20 @@ if (modalCloseButton) {
 }
 
 
+
 /* =====================================================
-   10. CLICK OUTSIDE MODAL
+   CLICK OUTSIDE MODAL
 ===================================================== */
 
 if (attendanceModal) {
 
     attendanceModal.addEventListener(
         "click",
-        (event) => {
+        function(event) {
 
             if (
-                event.target.classList.contains(
-                    "modal-overlay"
-                )
+                event.target ===
+                attendanceModal
             ) {
 
                 closeAttendanceModal();
@@ -449,15 +638,18 @@ if (attendanceModal) {
 }
 
 
+
 /* =====================================================
-   11. ESC KEY
+   ESC KEY
 ===================================================== */
 
 document.addEventListener(
     "keydown",
-    (event) => {
+    function(event) {
 
-        if (event.key === "Escape") {
+        if (
+            event.key === "Escape"
+        ) {
 
             closeAttendanceModal();
 
@@ -467,37 +659,32 @@ document.addEventListener(
 );
 
 
-/* =====================================================
-   12. SMOOTH SCROLL
-===================================================== */
-
-document.documentElement.style.scrollBehavior =
-    "smooth";
-
 
 /* =====================================================
-   13. PREVENT BROKEN IMAGE LOOK
+   IMAGE CHECK
 ===================================================== */
 
-const weddingImage =
+const mainImage =
     document.querySelector(
         ".photo-frame img"
     );
 
 
-if (weddingImage) {
+if (mainImage) {
 
-    weddingImage.addEventListener(
+    mainImage.addEventListener(
         "error",
-        () => {
+        function() {
 
-            weddingImage.style.display =
-                "none";
+            console.log(
+                "Image not found: her-photo.jpg"
+            );
 
         }
     );
 
 }
+
 
 
 /* =====================================================
